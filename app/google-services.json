@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "496966597566",
+    "project_id": "moodrecognition-db0e0",
+    "storage_bucket": "moodrecognition-db0e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:496966597566:android:965113c105d840291d57ef",
+        "android_client_info": {
+          "package_name": "com.example.moodrecognition"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6962kPqdvAugumTgVUYc5yv7JbAMy24A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
