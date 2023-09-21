@@ -17,12 +17,14 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.face.Face;
+import com.google.mlkit.vision.face.FaceContour;
 import com.google.mlkit.vision.face.FaceDetection;
 import com.google.mlkit.vision.face.FaceDetector;
 import com.google.mlkit.vision.face.FaceDetectorOptions;
@@ -42,6 +44,8 @@ public class AnalyzeFaceActivity extends AppCompatActivity {
     InputImage image;
     Bitmap imageBitmap;
     ArrayList<Rect> faceRectangles = new ArrayList<Rect>();
+    TextView faceAnalysis;
+    List<FaceContour> contour_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +113,9 @@ public class AnalyzeFaceActivity extends AppCompatActivity {
                                         for (Face face : faces){
                                             Rect bounds = face.getBoundingBox();
                                             faceRectangles.add(bounds);
+
                                             Log.d("getFaceInfo", "Face detected");
+                                            addFaceAnalysis(face);
                                         }
                                         drawRects();
 
@@ -144,6 +150,23 @@ public class AnalyzeFaceActivity extends AppCompatActivity {
             LinearLayout rectangleLayout = (LinearLayout) findViewById(R.id.rectangleView);
             rectangleLayout.setBackground(new BitmapDrawable(mutableBm));
         }
+
+    }
+
+    private void addFaceAnalysis(Face face){
+        faceAnalysis = findViewById(R.id.faceAnalysis);
+        faceAnalysis.setTextColor(Color.WHITE);
+        faceAnalysis.setTextSize(20);
+
+        String msg = "";
+        msg += "Smiling Probability: " + face.getSmilingProbability() + "\n";
+        msg += "Left Eye Open Probability: " + face.getLeftEyeOpenProbability() + "\n";
+        msg += "Right Eye Open Probability: " + face.getRightEyeOpenProbability() + "\n";
+
+        faceAnalysis.setText(msg);
+
+
+
 
 
 
