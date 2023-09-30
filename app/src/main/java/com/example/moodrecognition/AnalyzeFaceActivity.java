@@ -17,6 +17,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -106,23 +107,20 @@ public class AnalyzeFaceActivity extends AppCompatActivity {
         Task<List<Face>> result =
                 detector.process(image)
                         .addOnSuccessListener(
-                                new OnSuccessListener<List<Face>>() {
-                                    @Override
-                                    public void onSuccess(List<Face> faces) {
-                                        // successfully detected face
-                                        for (Face face : faces){
-                                            // all faces detected get added to a list of faces by default
-                                            Rect bounds = face.getBoundingBox();
-                                            faceRectangles.add(bounds);
+                                faces -> {
+                                    // successfully detected face
+                                    for (Face face : faces){
+                                        // all faces detected get added to a list of faces by default
+                                        Rect bounds = face.getBoundingBox();
+                                        faceRectangles.add(bounds);
 
-                                            // TODO: Eventually add option to add pictures with multiple faces
-                                            // then tap on that face to display that faces info
-                                            Log.d("getFaceInfo", "Face detected");
-                                            addFaceAnalysis(face);
-                                        }
-                                        drawRects();
-
+                                        // TODO: Eventually add option to add pictures with multiple faces
+                                        // then tap on that face to display that faces info
+                                        Log.d("getFaceInfo", "Face detected");
+                                        addFaceAnalysis(face);
                                     }
+                                    drawRects();
+
                                 })
                         .addOnFailureListener(
                                 new OnFailureListener() {
@@ -158,19 +156,20 @@ public class AnalyzeFaceActivity extends AppCompatActivity {
 
     // adds the face analysis stats to the textview
     private void addFaceAnalysis(Face face){
-        faceAnalysis = findViewById(R.id.faceAnalysis);
+        faceAnalysis = findViewById(R.id.textView);
         faceAnalysis.setTextColor(Color.WHITE);
         faceAnalysis.setTextSize(20);
 
 
-        // for now this displays raw float values, TODO: change to have bar graphs
-        String msg = "";
-        msg += "Smiling Probability: " + face.getSmilingProbability() + "\n";
-        msg += "Left Eye Open Probability: " + face.getLeftEyeOpenProbability() + "\n";
-        msg += "Right Eye Open Probability: " + face.getRightEyeOpenProbability() + "\n";
+        ProgressBar smilingBar = findViewById(R.id.progressBar);
+        float progress = face.getSmilingProbability();
+        smilingBar.setProgress((int) (progress * 100));
+        faceAnalysis.setText("Smiling Probability: " + Integer.toString((int)(progress * 100)) + "%");
+
+
+
 
         // TODO: also add a function to add face expression graphic based on smiling
-        faceAnalysis.setText(msg);
 
 
 
