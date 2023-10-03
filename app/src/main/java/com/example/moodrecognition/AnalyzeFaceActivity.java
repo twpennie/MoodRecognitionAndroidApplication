@@ -156,16 +156,34 @@ public class AnalyzeFaceActivity extends AppCompatActivity {
 
     // adds the face analysis stats to the textview
     private void addFaceAnalysis(Face face){
-        faceAnalysis = findViewById(R.id.textView);
-        faceAnalysis.setTextColor(Color.WHITE);
-        faceAnalysis.setTextSize(20);
+        TextView smilingText = findViewById(R.id.textView);
+        smilingText.setTextColor(Color.WHITE);
+        smilingText.setTextSize(20);
 
 
         ProgressBar smilingBar = findViewById(R.id.progressBar);
         float progress = face.getSmilingProbability();
         smilingBar.setProgress((int) (progress * 100));
-        faceAnalysis.setText("Smiling Probability: " + Integer.toString((int)(progress * 100)) + "%");
+        smilingText.setText("Smiling Probability: " + Integer.toString((int)(progress * 100)) + "%");
 
+        ProgressBar leftEyeBar = findViewById(R.id.progressBarLeftEye);
+        progress = face.getLeftEyeOpenProbability();
+        leftEyeBar.setProgress((int) (progress * 100));
+
+        TextView leftEyeText = findViewById(R.id.textView2);
+        leftEyeText.setTextColor(Color.WHITE);
+        leftEyeText.setTextSize(20);
+        leftEyeText.setText("Left Eye Open Probability: " + Integer.toString((int)(progress * 100)) + "%");
+
+
+        ProgressBar rightEyeBar = findViewById(R.id.progressBarRightEye);
+        progress = face.getRightEyeOpenProbability();
+        rightEyeBar.setProgress((int) (progress * 100));
+
+        TextView rightEyeText = findViewById(R.id.textView3);
+        rightEyeText.setTextColor(Color.WHITE);
+        rightEyeText.setTextSize(20);
+        rightEyeText.setText("Right Eye Open Probability: " + Integer.toString((int)(progress * 100)) + "%");
 
 
 
